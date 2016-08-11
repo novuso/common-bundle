@@ -5,5 +5,6 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
     <imports>
         <import resource="services/filesystem.xml" />
+        <import resource="services/service.xml" />
     </imports>
 </container>

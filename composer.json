@@ -10,7 +10,7 @@
         "psr/cache": "~1.0",
         "psr/http-message": "~1.0",
         "psr/log": "~1.0",
-        "novuso/common": "~0.2",
+        "novuso/common": "~0.3",
         "novuso/system": "~0.2",
         "symfony/monolog-bundle": "~2.8",
         "symfony/swiftmailer-bundle": "~2.3",
