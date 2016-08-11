@@ -18,7 +18,7 @@ use Swift_Message;
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @author    John Nickell <email@johnnickell.com>
  */
-class SwiftMailerService implements MailService
+class SwiftMailerMailService implements MailService
 {
     /**
      * Swift mailer
