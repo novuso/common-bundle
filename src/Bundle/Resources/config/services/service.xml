@@ -4,9 +4,12 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services
         http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
+
         <!-- Novuso\Common\Application\Service\Container -->
-        <service id="novuso_common.service_container" class="Novuso\Common\Adapter\Service\Symfony\SymfonyContainer">
+        <service id="novuso_common.service_container"
+                 class="Novuso\Common\Adapter\Service\Symfony\SymfonyContainer">
             <argument type="service" id="service_container" />
         </service>
+
     </services>
 </container>

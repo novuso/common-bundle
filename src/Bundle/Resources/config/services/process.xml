@@ -5,9 +5,11 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
 
-        <!-- Novuso\Common\Application\Filesystem\Filesystem -->
-        <service id="novuso_common.filesystem"
-                 class="Novuso\Common\Adapter\Filesystem\Symfony\SymfonyFilesystem" />
+        <!-- Novuso\Common\Application\Process\ProcessManager -->
+        <service id="novuso_common.process_manager"
+                 class="Novuso\Common\Adapter\Process\Symfony\SymfonyProcessManager">
+            <argument>1</argument>
+        </service>
 
     </services>
 </container>
