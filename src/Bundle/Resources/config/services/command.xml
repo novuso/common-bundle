@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+
+        <!-- Novuso\Common\Domain\Messaging\Command\CommandBus -->
+        <service id="novuso_common.command_bus"
+                 alias="novuso_common.command_pipeline" />
+
+        <!-- Internal -->
+        <service id="novuso_common.command_pipeline"
+                 class="Novuso\Common\Application\Messaging\Command\CommandPipeline">
+            <argument type="service" id="novuso_common.command_bus_routing" />
+        </service>
+
+        <service id="novuso_common.command_bus_routing"
+                 class="Novuso\Common\Application\Messaging\Command\RoutingCommandBus"
+                 public="false">
+            <argument type="service" id="novuso_common.command_service_router" />
+        </service>
+
+        <service id="novuso_common.command_service_router"
+                 class="Novuso\Common\Application\Messaging\Command\Routing\ServiceAwareCommandRouter"
+                 public="false">
+            <argument type="service" id="novuso_common.command_service_map" />
+        </service>
+
+        <service id="novuso_common.command_service_map"
+                 class="Novuso\Common\Application\Messaging\Command\Routing\ServiceAwareCommandMap">
+            <argument type="service" id="novuso_common.service_container" />
+        </service>
+
+        <service id="novuso_common.command_logger"
+                 class="Novuso\Common\Application\Messaging\Command\Filter\CommandLogger">
+            <argument type="service" id="logger" />
+            <tag name="novuso_common.command_filter" />
+        </service>
+
+    </services>
+</container>

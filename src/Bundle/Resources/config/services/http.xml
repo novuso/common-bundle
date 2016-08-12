@@ -27,7 +27,7 @@
         <service id="novuso_common.http_uri_factory"
                  class="Novuso\Common\Adapter\Http\Guzzle\GuzzleUriFactory" />
 
-        <!-- internal -->
+        <!-- Internal -->
         <service id="novuso_common.http_guzzle_client"
                  class="GuzzleHttp\Client"
                  public="false">

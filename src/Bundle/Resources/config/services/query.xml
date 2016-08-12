@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+
+        <!-- Novuso\Common\Domain\Messaging\Query\QueryBus -->
+        <service id="novuso_common.query_bus"
+                 alias="novuso_common.query_pipeline" />
+
+        <!-- Internal -->
+        <service id="novuso_common.query_pipeline"
+                 class="Novuso\Common\Application\Messaging\Query\QueryPipeline">
+            <argument type="service" id="novuso_common.query_bus_routing" />
+        </service>
+
+        <service id="novuso_common.query_bus_routing"
+                 class="Novuso\Common\Application\Messaging\Query\RoutingQueryBus"
+                 public="false">
+            <argument type="service" id="novuso_common.query_service_router" />
+        </service>
+
+        <service id="novuso_common.query_service_router"
+                 class="Novuso\Common\Application\Messaging\Query\Routing\ServiceAwareQueryRouter"
+                 public="false">
+            <argument type="service" id="novuso_common.query_service_map" />
+        </service>
+
+        <service id="novuso_common.query_service_map"
+                 class="Novuso\Common\Application\Messaging\Query\Routing\ServiceAwareQueryMap">
+            <argument type="service" id="novuso_common.service_container" />
+        </service>
+
+        <service id="novuso_common.query_logger"
+                 class="Novuso\Common\Application\Messaging\Query\Filter\QueryLogger">
+            <argument type="service" id="logger" />
+            <tag name="novuso_common.query_filter" />
+        </service>
+
+    </services>
+</container>
