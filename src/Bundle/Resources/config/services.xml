@@ -11,6 +11,7 @@
         <import resource="services/mail.xml" />
         <import resource="services/process.xml" />
         <import resource="services/query.xml" />
+        <import resource="services/routing.yml" />
         <import resource="services/service.xml" />
     </imports>
 </container>
