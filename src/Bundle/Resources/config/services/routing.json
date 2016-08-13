@@ -1,0 +1,9 @@
+{
+    "services": {
+        "novuso_common.routing_json_loader": {
+            "class": "Novuso\\Common\\Adapter\\Bundle\\Routing\\Loader\\JsonFileLoader",
+            "arguments": ["@file_locator"],
+            "tags": [{"name": "routing.loader"}]
+        }
+    }
+}

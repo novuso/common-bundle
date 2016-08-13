@@ -1,0 +1,8 @@
+{
+    "services": {
+        "novuso_common.process_manager": {
+            "class": "Novuso\\Common\\Adapter\\Process\\Symfony\\SymfonyProcessManager",
+            "arguments": [1]
+        }
+    }
+}

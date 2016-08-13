@@ -1,0 +1,13 @@
+{
+    "imports": [
+        {"resource": "services/command.json"},
+        {"resource": "services/event.json"},
+        {"resource": "services/filesystem.json"},
+        {"resource": "services/http.json"},
+        {"resource": "services/mail.json"},
+        {"resource": "services/process.json"},
+        {"resource": "services/query.json"},
+        {"resource": "services/routing.json"},
+        {"resource": "services/service.json"}
+    ]
+}

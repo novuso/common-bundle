@@ -1,0 +1,13 @@
+{
+    "services": {
+        "novuso_common.event_dispatcher": {
+            "class": "Novuso\\Common\\Application\\Messaging\\Event\\ServiceAwareEventDispatcher",
+            "arguments": ["@novuso_common.service_container"]
+        },
+        "novuso_common.event_logger": {
+            "class": "Novuso\\Common\\Application\\Messaging\\Event\\Subscriber\\EventLogger",
+            "arguments": ["@logger"],
+            "tags": [{"name": "novuso_common.event_subscriber"}]
+        }
+    }
+}

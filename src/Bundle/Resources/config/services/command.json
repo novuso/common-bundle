@@ -1,0 +1,30 @@
+{
+    "services": {
+        "novuso_common.command_bus": {
+            "alias": "novuso_common.command_pipeline"
+        },
+        "novuso_common.command_pipeline": {
+            "class": "Novuso\\Common\\Application\\Messaging\\Command\\CommandPipeline",
+            "arguments": ["@novuso_common.command_bus_routing"]
+        },
+        "novuso_common.command_bus_routing": {
+            "class": "Novuso\\Common\\Application\\Messaging\\Command\\RoutingCommandBus",
+            "arguments": ["@novuso_common.command_service_router"],
+            "public": false
+        },
+        "novuso_common.command_service_router": {
+            "class": "Novuso\\Common\\Application\\Messaging\\Command\\Routing\\ServiceAwareCommandRouter",
+            "arguments": ["@novuso_common.command_service_map"],
+            "public": false
+        },
+        "novuso_common.command_service_map": {
+            "class": "Novuso\\Common\\Application\\Messaging\\Command\\Routing\\ServiceAwareCommandMap",
+            "arguments": ["@novuso_common.service_container"]
+        },
+        "novuso_common.command_logger": {
+            "class": "Novuso\\Common\\Application\\Messaging\\Command\\Filter\\CommandLogger",
+            "arguments": ["@logger"],
+            "tags": [{"name": "novuso_common.command_filter"}]
+        }
+    }
+}
