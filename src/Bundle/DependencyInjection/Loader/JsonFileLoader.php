@@ -23,7 +23,7 @@ use Symfony\Component\ExpressionLanguage\Expression;
  */
 class JsonFileLoader extends FileLoader
 {
-    private static $keywords = [
+    protected static $keywords = [
         'alias'                 => 'alias',
         'parent'                => 'parent',
         'class'                 => 'class',
@@ -117,7 +117,7 @@ class JsonFileLoader extends FileLoader
      *
      * @throws Exception When an error occurs
      */
-    private function parseImports($content, $file)
+    protected function parseImports($content, $file)
     {
         if (!isset($content['imports'])) {
             return;
@@ -161,7 +161,7 @@ class JsonFileLoader extends FileLoader
      *
      * @throws Exception When an error occurs
      */
-    private function parseDefinitions($content, $file)
+    protected function parseDefinitions($content, $file)
     {
         if (!isset($content['services'])) {
             return;
@@ -189,7 +189,7 @@ class JsonFileLoader extends FileLoader
      *
      * @throws InvalidArgumentException When tags are invalid
      */
-    private function parseDefinition($id, $service, $file)
+    protected function parseDefinition($id, $service, $file)
     {
         if (is_string($service) && 0 === strpos($service, '@')) {
             $this->container->setAlias($id, substr($service, 1));
@@ -411,7 +411,7 @@ class JsonFileLoader extends FileLoader
      *
      * @return string|array A parsed callable
      */
-    private function parseCallable($callable, $parameter, $id, $file)
+    protected function parseCallable($callable, $parameter, $id, $file)
     {
         if (is_string($callable)) {
             if ('' !== $callable && '@' === $callable[0]) {
@@ -494,7 +494,7 @@ class JsonFileLoader extends FileLoader
      *
      * @throws InvalidArgumentException When service file is not valid
      */
-    private function validate($content, $file)
+    protected function validate($content, $file)
     {
         if ($content === null) {
             return $content;
@@ -541,7 +541,7 @@ class JsonFileLoader extends FileLoader
      *
      * @return array|string|Reference
      */
-    private function resolveServices($value)
+    protected function resolveServices($value)
     {
         if (is_array($value)) {
             $value = array_map([$this, 'resolveServices'], $value);
@@ -581,7 +581,7 @@ class JsonFileLoader extends FileLoader
      *
      * @return void
      */
-    private function loadFromExtensions($content)
+    protected function loadFromExtensions($content)
     {
         foreach ($content as $namespace => $values) {
             if (in_array($namespace, ['imports', 'parameters', 'services'])) {
@@ -605,7 +605,7 @@ class JsonFileLoader extends FileLoader
      *
      * @return void
      */
-    private static function checkDefinition($id, array $definition, $file)
+    protected static function checkDefinition($id, array $definition, $file)
     {
         foreach ($definition as $key => $value) {
             if (!isset(static::$keywords[$key])) {

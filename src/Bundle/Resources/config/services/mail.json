@@ -1,0 +1,11 @@
+{
+    "services": {
+        "novuso_common.mail_service": {
+            "class": "Novuso\\Common\\Adapter\\Mail\\SwiftMailer\\SwiftMailerMailService",
+            "arguments": ["@mailer"]
+        },
+        "novuso_common.mail_factory": {
+            "class": "Novuso\\Common\\Adapter\\Mail\\SwiftMailer\\SwiftMailerMailFactory"
+        }
+    }
+}

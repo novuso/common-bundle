@@ -1,0 +1,8 @@
+{
+    "services": {
+        "novuso_common.service_container": {
+            "class": "Novuso\\Common\\Adapter\\Service\\Symfony\\SymfonyContainer",
+            "arguments": ["@service_container"]
+        }
+    }
+}

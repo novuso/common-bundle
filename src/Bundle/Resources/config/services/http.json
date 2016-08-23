@@ -1,0 +1,24 @@
+{
+    "services": {
+        "novuso_common.http_async_client": {
+            "alias": "novuso_common.http_client"
+        },
+        "novuso_common.http_client": {
+            "class": "Novuso\\Common\\Adapter\\Http\\Guzzle\\GuzzleClient",
+            "arguments": ["@novuso_common.http_guzzle_client"]
+        },
+        "novuso_common.http_message_factory": {
+            "class": "Novuso\\Common\\Adapter\\Http\\Guzzle\\GuzzleMessageFactory"
+        },
+        "novuso_common.http_stream_factory": {
+            "class": "Novuso\\Common\\Adapter\\Http\\Guzzle\\GuzzleStreamFactory"
+        },
+        "novuso_common.http_uri_factory": {
+            "class": "Novuso\\Common\\Adapter\\Http\\Guzzle\\GuzzleUriFactory"
+        },
+        "novuso_common.http_guzzle_client": {
+            "class": "GuzzleHttp\\Client",
+            "public": false
+        }
+    }
+}

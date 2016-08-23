@@ -1,0 +1,7 @@
+{
+    "services": {
+        "novuso_common.filesystem": {
+            "class": "Novuso\\Common\\Adapter\\Filesystem\\Symfony\\SymfonyFilesystem"
+        }
+    }
+}

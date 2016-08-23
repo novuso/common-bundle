@@ -1,0 +1,30 @@
+{
+    "services": {
+        "novuso_common.query_bus": {
+            "alias": "novuso_common.query_pipeline"
+        },
+        "novuso_common.query_pipeline": {
+            "class": "Novuso\\Common\\Application\\Messaging\\Query\\QueryPipeline",
+            "arguments": ["@novuso_common.query_bus_routing"]
+        },
+        "novuso_common.query_bus_routing": {
+            "class": "Novuso\\Common\\Application\\Messaging\\Query\\RoutingQueryBus",
+            "arguments": ["@novuso_common.query_service_router"],
+            "public": false
+        },
+        "novuso_common.query_service_router": {
+            "class": "Novuso\\Common\\Application\\Messaging\\Query\\Routing\\ServiceAwareQueryRouter",
+            "arguments": ["@novuso_common.query_service_map"],
+            "public": false
+        },
+        "novuso_common.query_service_map": {
+            "class": "Novuso\\Common\\Application\\Messaging\\Query\\Routing\\ServiceAwareQueryMap",
+            "arguments": ["@novuso_common.service_container"]
+        },
+        "novuso_common.query_logger": {
+            "class": "Novuso\\Common\\Application\\Messaging\\Query\\Filter\\QueryLogger",
+            "arguments": ["@logger"],
+            "tags": [{"name": "novuso_common.query_filter"}]
+        }
+    }
+}
