@@ -177,7 +177,7 @@ class ContentNegotiation implements HttpKernelInterface, TerminableInterface
             $request->attributes->set('_accept', $accept);
             if ($accept !== null) {
                 /** @var Accept $accept */
-                if (false !== strpos($accept->getType(), '*')) {
+                if (false === strpos($accept->getType(), '*')) {
                     $mimeType = $accept->getType();
                     $format = $this->getFormat($mimeType);
                     $request->attributes->set('_mime_type', $mimeType);
