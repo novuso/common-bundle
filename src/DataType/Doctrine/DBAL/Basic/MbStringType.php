@@ -22,7 +22,7 @@ class MbStringType extends Type
      *
      * @var string
      */
-    const TYPE_NAME = 'common_mbstring';
+    const TYPE_NAME = 'common_mb_string';
 
     /**
      * Gets the SQL declaration snippet for a field of this type

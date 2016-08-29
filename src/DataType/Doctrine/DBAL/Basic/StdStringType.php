@@ -22,7 +22,7 @@ class StdStringType extends Type
      *
      * @var string
      */
-    const TYPE_NAME = 'common_string';
+    const TYPE_NAME = 'common_std_string';
 
     /**
      * Gets the SQL declaration snippet for a field of this type

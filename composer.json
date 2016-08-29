@@ -29,7 +29,8 @@
         "psr-4": {
             "Novuso\\Common\\Adapter\\": "src",
             "Novuso\\Test\\Common\\Adapter\\": "test"
-        }
+        },
+        "files": ["src/functions.php"]
     },
     "config": {
         "preferred-install": "dist"
