@@ -20,6 +20,18 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 class NovusoCommonBundle extends Bundle
 {
     /**
+     * Boots the bundle
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        if ($this->container->has('doctrine')) {
+            // register custom data types
+        }
+    }
+
+    /**
      * Builds in container modifications when cache is empty
      *
      * @param ContainerBuilder $container The container builder
