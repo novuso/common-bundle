@@ -9,41 +9,41 @@
 
 use Novuso\Common\Domain\Model\Basic\MbString;
 use Novuso\Common\Domain\Model\Basic\StdString;
+use Novuso\Common\Domain\Model\Identifier\Uuid;
 use Novuso\System\Collection\ArrayCollection;
 use Novuso\System\Exception\DomainException;
 use Novuso\System\Type\Arrayable;
-use Novuso\System\Utility\Test;
+use Novuso\System\Utility\Validate;
 use Novuso\System\Utility\VarPrinter;
 
-if (!function_exists('std_string')) {
+if (!function_exists('collect')) {
     /**
-     * Created StdString instance
+     * Creates an ArrayCollection instance
      *
-     * @param mixed $value The string value
+     * @param Arrayable|Traversable|array $items The items to collect
      *
-     * @return StdString
+     * @return ArrayCollection
      *
-     * @throws DomainException When the value is not valid
+     * @throws DomainException When the items are not valid
      */
-    function std_string($value): StdString
+    function collect($items = []): ArrayCollection
     {
-        if (!Test::isStringCastable($value)) {
-            $message = sprintf('Invalid string value: %s', VarPrinter::toString($value));
-            throw new DomainException($message);
+        if (!is_array($items)) {
+            if ($items instanceof Arrayable) {
+                $items = $items->toArray();
+            } elseif ($items instanceof Traversable) {
+                $items = iterator_to_array($items);
+            } else {
+                $message = sprintf('Invalid items: %s', VarPrinter::toString($items));
+                throw new DomainException($message);
+            }
         }
 
-        if ($value instanceof StdString) {
-            return $value;
-        }
-
-        /** @var StdString $string */
-        $string = StdString::create((string) $value);
-
-        return $string;
+        return ArrayCollection::create($items);
     }
 }
 
-if (!function_exists('mb_string')) {
+if (!function_exists('mbString')) {
     /**
      * Creates MbString instance
      *
@@ -53,9 +53,9 @@ if (!function_exists('mb_string')) {
      *
      * @throws DomainException When the value is not valid
      */
-    function mb_string($value): MbString
+    function mbString($value): MbString
     {
-        if (!Test::isStringCastable($value)) {
+        if (!Validate::isStringCastable($value)) {
             $message = sprintf('Invalid string value: %s', VarPrinter::toString($value));
             throw new DomainException($message);
         }
@@ -71,26 +71,44 @@ if (!function_exists('mb_string')) {
     }
 }
 
-if (!function_exists('collect')) {
+if (!function_exists('stdString')) {
     /**
-     * Creates an ArrayCollection instance
+     * Created StdString instance
      *
-     * @param Arrayable|array $items The items to collect
+     * @param mixed $value The string value
      *
-     * @return ArrayCollection
+     * @return StdString
      *
-     * @throws DomainException When the items are not valid
+     * @throws DomainException When the value is not valid
      */
-    function collect($items = []): ArrayCollection
+    function stdString($value): StdString
     {
-        if (!is_array($items)) {
-            if (!($items instanceof Arrayable)) {
-                $message = sprintf('Invalid items: %s', VarPrinter::toString($items));
-                throw new DomainException($message);
-            }
-            $items = $items->toArray();
+        if (!Validate::isStringCastable($value)) {
+            $message = sprintf('Invalid string value: %s', VarPrinter::toString($value));
+            throw new DomainException($message);
         }
 
-        return ArrayCollection::create($items);
+        if ($value instanceof StdString) {
+            return $value;
+        }
+
+        /** @var StdString $string */
+        $string = StdString::create((string) $value);
+
+        return $string;
+    }
+}
+
+if (!function_exists('uuid')) {
+    /**
+     * Creates a sequential pseudo-random Uuid instance
+     *
+     * @param bool $msb Whether or not timestamp covers most significant bits
+     *
+     * @return Uuid
+     */
+    function uuid(bool $msb = true): Uuid
+    {
+        return Uuid::comb($msb);
     }
 }
