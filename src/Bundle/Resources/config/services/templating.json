@@ -1,7 +1,13 @@
 {
     "services": {
         "novuso_common.template_engine": {
-            "alias": "novuso_common.templating.twig_engine"
+            "alias": "novuso_common.templating.delegating_engine"
+        },
+        "novuso_common.templating.delegating_engine": {
+            "class": "Novuso\\Common\\Application\\Templating\\DelegatingEngine",
+            "arguments": [
+                ["@novuso_common.templating.twig_engine"]
+            ]
         },
         "novuso_common.templating.twig_engine": {
             "class": "Novuso\\Common\\Adapter\\Templating\\Twig\\TwigEngine",
