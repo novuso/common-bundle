@@ -123,7 +123,6 @@ class SymfonyProcessManager implements ProcessManager
         }
 
         $this->running = false;
-
         $this->clear();
     }
 
@@ -212,6 +211,8 @@ class SymfonyProcessManager implements ProcessManager
         foreach ($this->procs as $proc) {
             $proc->stop();
         }
+        $this->running = false;
+        $this->clear();
     }
 
     /**
