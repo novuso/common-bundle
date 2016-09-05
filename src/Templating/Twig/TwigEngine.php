@@ -4,6 +4,7 @@ namespace Novuso\Common\Adapter\Templating\Twig;
 
 use Exception;
 use Novuso\Common\Application\Templating\TemplateEngine;
+use Novuso\Common\Application\Templating\TemplateHelper;
 use Novuso\Common\Application\Templating\Exception\DuplicateHelperException;
 use Novuso\Common\Application\Templating\Exception\TemplatingException;
 use Symfony\Component\Templating\TemplateNameParserInterface;
