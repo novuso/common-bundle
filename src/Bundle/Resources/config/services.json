@@ -1,6 +1,7 @@
 {
     "imports": [
         {"resource": "services/command.json"},
+        {"resource": "services/console.json"},
         {"resource": "services/event.json"},
         {"resource": "services/filesystem.json"},
         {"resource": "services/http.json"},

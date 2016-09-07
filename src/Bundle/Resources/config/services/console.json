@@ -1,0 +1,9 @@
+{
+    "services": {
+        "novuso_common.console.exception_log_subscriber": {
+            "class": "Novuso\\Common\\Adapter\\Console\\Symfony\\Subscriber\\ExceptionLogSubscriber",
+            "arguments": ["@logger"],
+            "tags": [{"name": "kernel.event_subscriber"}]
+        }
+    }
+}
