@@ -4,6 +4,10 @@
             "class": "Novuso\\Common\\Adapter\\Bundle\\Routing\\Loader\\JsonFileLoader",
             "arguments": ["@file_locator"],
             "tags": [{"name": "routing.loader"}]
+        },
+        "novuso_common.url_generator": {
+            "class": "Novuso\\Common\\Adapter\\Routing\\Symfony\\SymfonyUrlGenerator",
+            "arguments": ["@router"]
         }
     }
 }
