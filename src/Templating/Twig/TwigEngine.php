@@ -60,7 +60,7 @@ class TwigEngine implements TemplateEngine
     public function render(string $template, array $data = []): string
     {
         try {
-            return $this->load($this->filter($template))->render($data);
+            return $this->load($template)->render($data);
         } catch (Exception $exception) {
             throw new TemplatingException($exception->getMessage(), $template, $exception);
         }
@@ -78,7 +78,7 @@ class TwigEngine implements TemplateEngine
         $loader = $this->environment->getLoader();
 
         try {
-            $loader->getSource((string) $this->filter($template));
+            $loader->getSource((string) $template);
         } catch (Exception $exception) {
             return false;
         }
@@ -95,7 +95,7 @@ class TwigEngine implements TemplateEngine
             return true;
         }
 
-        $reference = $this->parser->parse($this->filter($template));
+        $reference = $this->parser->parse($template);
 
         return $reference->get('engine') === 'twig';
     }
@@ -149,22 +149,6 @@ class TwigEngine implements TemplateEngine
             $template = $this->environment->loadTemplate((string) $name);
         } catch (Exception $exception) {
             throw new TemplatingException($exception->getMessage(), (string) $name, $exception);
-        }
-
-        return $template;
-    }
-
-    /**
-     * Filters the template name
-     *
-     * @param string|TemplateReferenceInterface|Twig_Template $template The template
-     *
-     * @return string|TemplateReferenceInterface|Twig_Template
-     */
-    protected function filter($template)
-    {
-        if (is_string($template)) {
-            return str_replace(':', DIRECTORY_SEPARATOR, $template);
         }
 
         return $template;
