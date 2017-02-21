@@ -45,10 +45,7 @@ Vagrant.configure(2) do |config|
 
     # server hostname and sync
     config.vm.hostname = project_hostname
-    config.vm.synced_folder ".", project_root, id: "core",
-        :nfs         => true,
-        :nfs_udp     => false,
-        :nfs_version => 4
+    config.vm.synced_folder ".", project_root, id: "core"
 
     # virtualbox setup
     config.vm.provider :virtualbox do |vb|
