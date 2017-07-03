@@ -11,7 +11,7 @@ use Novuso\Common\Adapter\Bundle\DependencyInjection\Compiler\EventSubscriberCom
 use Novuso\Common\Adapter\Bundle\DependencyInjection\Compiler\QueryFilterCompilerPass;
 use Novuso\Common\Adapter\Bundle\DependencyInjection\Compiler\QueryHandlerCompilerPass;
 use Novuso\Common\Adapter\DataType\Doctrine\DBAL\Basic\MbStringType;
-use Novuso\Common\Adapter\DataType\Doctrine\DBAL\Basic\StdStringType;
+use Novuso\Common\Adapter\DataType\Doctrine\DBAL\Basic\CStringType;
 use Novuso\Common\Adapter\DataType\Doctrine\DBAL\DateTime\DateTimeType;
 use Novuso\Common\Adapter\DataType\Doctrine\DBAL\DateTime\DateType;
 use Novuso\Common\Adapter\DataType\Doctrine\DBAL\DateTime\TimeType;
@@ -27,7 +27,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 /**
  * NovusoCommonBundle is the Symfony Bundle for Novuso Common
  *
- * @copyright Copyright (c) 2016, Novuso. <http://novuso.com>
+ * @copyright Copyright (c) 2017, Novuso. <http://novuso.com>
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @author    John Nickell <email@johnnickell.com>
  */
@@ -42,7 +42,7 @@ class NovusoCommonBundle extends Bundle
     {
         if ($this->container->has('doctrine')) {
             Type::addType(MbStringType::TYPE_NAME, MbStringType::class);
-            Type::addType(StdStringType::TYPE_NAME, StdStringType::class);
+            Type::addType(CStringType::TYPE_NAME, CStringType::class);
             Type::addType(DateTimeType::TYPE_NAME, DateTimeType::class);
             Type::addType(DateType::TYPE_NAME, DateType::class);
             Type::addType(TimeType::TYPE_NAME, TimeType::class);
@@ -61,8 +61,8 @@ class NovusoCommonBundle extends Bundle
                 MbStringType::TYPE_NAME
             );
             $platform->registerDoctrineTypeMapping(
-                'db_'.StdStringType::TYPE_NAME,
-                StdStringType::TYPE_NAME
+                'db_'.CStringType::TYPE_NAME,
+                CStringType::TYPE_NAME
             );
             $platform->registerDoctrineTypeMapping(
                 'db_'.DateTimeType::TYPE_NAME,

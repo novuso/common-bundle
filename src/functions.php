@@ -2,14 +2,14 @@
 /**
  * This file is part of the Novuso Framework
  *
- * @copyright Copyright (c) 2016, Novuso. <http://novuso.com>
+ * @copyright Copyright (c) 2017, Novuso. <http://novuso.com>
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @author    John Nickell <email@johnnickell.com>
  */
 
-use Novuso\Common\Domain\Model\Basic\MbString;
-use Novuso\Common\Domain\Model\Basic\StdString;
-use Novuso\Common\Domain\Model\Identifier\Uuid;
+use Novuso\Common\Domain\Identification\Uuid;
+use Novuso\Common\Domain\Type\CString;
+use Novuso\Common\Domain\Type\MbString;
 use Novuso\System\Collection\ArrayCollection;
 use Novuso\System\Exception\DomainException;
 use Novuso\System\Type\Arrayable;
@@ -43,7 +43,7 @@ if (!function_exists('collect')) {
     }
 }
 
-if (!function_exists('mbString')) {
+if (!function_exists('mbstr')) {
     /**
      * Creates MbString instance
      *
@@ -53,7 +53,7 @@ if (!function_exists('mbString')) {
      *
      * @throws DomainException When the value is not valid
      */
-    function mbString($value): MbString
+    function mbstr($value): MbString
     {
         if (!Validate::isStringCastable($value)) {
             $message = sprintf('Invalid string value: %s', VarPrinter::toString($value));
@@ -71,29 +71,29 @@ if (!function_exists('mbString')) {
     }
 }
 
-if (!function_exists('stdString')) {
+if (!function_exists('str')) {
     /**
      * Created StdString instance
      *
      * @param mixed $value The string value
      *
-     * @return StdString
+     * @return CString
      *
      * @throws DomainException When the value is not valid
      */
-    function stdString($value): StdString
+    function str($value): CString
     {
         if (!Validate::isStringCastable($value)) {
             $message = sprintf('Invalid string value: %s', VarPrinter::toString($value));
             throw new DomainException($message);
         }
 
-        if ($value instanceof StdString) {
+        if ($value instanceof CString) {
             return $value;
         }
 
-        /** @var StdString $string */
-        $string = StdString::create((string) $value);
+        /** @var CString $string */
+        $string = CString::create((string) $value);
 
         return $string;
     }

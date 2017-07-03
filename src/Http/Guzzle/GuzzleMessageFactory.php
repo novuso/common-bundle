@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * GuzzleMessageFactory is a Guzzle HTTP message factory
  *
- * @copyright Copyright (c) 2016, Novuso. <http://novuso.com>
+ * @copyright Copyright (c) 2017, Novuso. <http://novuso.com>
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @author    John Nickell <email@johnnickell.com>
  */
@@ -38,7 +38,7 @@ class GuzzleMessageFactory implements MessageFactory
         array $headers = [],
         $body = null,
         string $protocol = '1.1',
-        string $reason = null
+        ?string $reason = null
     ): ResponseInterface {
         return new Response($status, $headers, $body, $protocol, $reason);
     }

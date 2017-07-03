@@ -26,7 +26,7 @@ use XMLWriter;
 /**
  * ContentNegotiation provides content negotiation as HttpKernel middleware
  *
- * @copyright Copyright (c) 2016, Novuso. <http://novuso.com>
+ * @copyright Copyright (c) 2017, Novuso. <http://novuso.com>
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @author    John Nickell <email@johnnickell.com>
  */
@@ -140,11 +140,11 @@ class ContentNegotiation implements HttpKernelInterface, TerminableInterface
         array $languagePriorities = [],
         array $encodingPriorities = [],
         array $charsetPriorities = [],
-        Negotiator $formatNegotiator = null,
-        LanguageNegotiator $languageNegotiator = null,
-        EncodingNegotiator $encodingNegotiator = null,
-        CharsetNegotiator $charsetNegotiator = null,
-        DecoderInterface $contentDecoder = null
+        ?Negotiator $formatNegotiator = null,
+        ?LanguageNegotiator $languageNegotiator = null,
+        ?EncodingNegotiator $encodingNegotiator = null,
+        ?CharsetNegotiator $charsetNegotiator = null,
+        ?DecoderInterface $contentDecoder = null
     ) {
         $this->kernel = $kernel;
         $this->formatPriorities = $formatPriorities;
@@ -169,7 +169,7 @@ class ContentNegotiation implements HttpKernelInterface, TerminableInterface
      *
      * @throws Exception When an Exception occurs during processing
      */
-    public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
+    public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true): Response
     {
         $acceptHeader = $request->headers->get('Accept');
         if ($acceptHeader !== null && !empty($this->formatPriorities)) {
@@ -239,7 +239,7 @@ class ContentNegotiation implements HttpKernelInterface, TerminableInterface
      *
      * @return void
      */
-    public function terminate(Request $request, Response $response)
+    public function terminate(Request $request, Response $response): void
     {
         if ($this->kernel instanceof TerminableInterface) {
             $this->kernel->terminate($request, $response);
@@ -253,7 +253,7 @@ class ContentNegotiation implements HttpKernelInterface, TerminableInterface
      *
      * @return void
      */
-    protected function decodeBody(Request $request)
+    protected function decodeBody(Request $request): void
     {
         if (in_array($request->getMethod(), ['POST', 'PUT', 'PATCH', 'DELETE'])) {
             $contentType = $request->headers->get('Content-Type', '');
@@ -289,7 +289,7 @@ class ContentNegotiation implements HttpKernelInterface, TerminableInterface
      *
      * @return string|null
      */
-    protected function getFormat(string $mimeType)
+    protected function getFormat(string $mimeType): ?string
     {
         $pos = strpos($mimeType, ';');
         if ($pos !== false) {

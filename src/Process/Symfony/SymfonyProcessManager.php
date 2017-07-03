@@ -11,7 +11,7 @@ use Symfony\Component\Process\Process as Proc;
 /**
  * SymfonyProcessManager is a Symfony process manager adapter
  *
- * @copyright Copyright (c) 2016, Novuso. <http://novuso.com>
+ * @copyright Copyright (c) 2017, Novuso. <http://novuso.com>
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @author    John Nickell <email@johnnickell.com>
  */
@@ -77,7 +77,7 @@ class SymfonyProcessManager implements ProcessManager
     /**
      * {@inheritdoc}
      */
-    public function attach(Process $process)
+    public function attach(Process $process): void
     {
         if ($this->running) {
             throw new Exception('Cannot attach process while running');
@@ -89,7 +89,7 @@ class SymfonyProcessManager implements ProcessManager
     /**
      * {@inheritdoc}
      */
-    public function clear()
+    public function clear(): void
     {
         if ($this->running) {
             throw new Exception('Cannot clear processes while running');
@@ -103,7 +103,7 @@ class SymfonyProcessManager implements ProcessManager
     /**
      * {@inheritdoc}
      */
-    public function run()
+    public function run(): void
     {
         if ($this->running) {
             throw new Exception('Processes already running');
@@ -131,7 +131,7 @@ class SymfonyProcessManager implements ProcessManager
      *
      * @return void
      */
-    protected function init()
+    protected function init(): void
     {
         if ($this->maxCount === 0 || count($this->procs) < $this->maxCount) {
             /** @var Process $process */
@@ -158,7 +158,7 @@ class SymfonyProcessManager implements ProcessManager
      *
      * @return void
      */
-    protected function tick()
+    protected function tick(): void
     {
         usleep(1000);
         /** @var Proc $proc */
@@ -177,7 +177,7 @@ class SymfonyProcessManager implements ProcessManager
      *
      * @throws Exception When an error occurs in a child process
      */
-    protected function clean()
+    protected function clean(): void
     {
         foreach ($this->pids as $pid => $running) {
             if (!$running) {
@@ -205,7 +205,7 @@ class SymfonyProcessManager implements ProcessManager
      *
      * @return void
      */
-    protected function stop()
+    protected function stop(): void
     {
         /** @var Proc $proc */
         foreach ($this->procs as $proc) {
@@ -224,7 +224,7 @@ class SymfonyProcessManager implements ProcessManager
      *
      * @return void
      */
-    protected function startProcess(Proc $proc, callable $stdout = null, callable $stderr = null)
+    protected function startProcess(Proc $proc, ?callable $stdout = null, ?callable $stderr = null): void
     {
         $out = Proc::OUT;
         $proc->start(function ($type, $data) use ($stdout, $stderr, $out) {

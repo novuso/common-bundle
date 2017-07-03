@@ -12,7 +12,7 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * SymfonyFilesystem is a Symfony filesystem adapter
  *
- * @copyright Copyright (c) 2016, Novuso. <http://novuso.com>
+ * @copyright Copyright (c) 2017, Novuso. <http://novuso.com>
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @author    John Nickell <email@johnnickell.com>
  */
@@ -38,7 +38,7 @@ class SymfonyFilesystem implements FilesystemInterface
     /**
      * {@inheritdoc}
      */
-    public function mkdir($dirs, int $mode = 0775)
+    public function mkdir($dirs, int $mode = 0775): void
     {
         try {
             $this->filesystem->mkdir($dirs, $mode);
@@ -52,7 +52,7 @@ class SymfonyFilesystem implements FilesystemInterface
     /**
      * {@inheritdoc}
      */
-    public function touch($files, int $time = null, int $atime = null)
+    public function touch($files, ?int $time = null, ?int $atime = null): void
     {
         try {
             $this->filesystem->touch($files, $time, $atime);
@@ -66,7 +66,7 @@ class SymfonyFilesystem implements FilesystemInterface
     /**
      * {@inheritdoc}
      */
-    public function rename(string $origin, string $target, bool $override = false)
+    public function rename(string $origin, string $target, bool $override = false): void
     {
         try {
             $this->filesystem->rename($origin, $target, $override);
@@ -80,7 +80,7 @@ class SymfonyFilesystem implements FilesystemInterface
     /**
      * {@inheritdoc}
      */
-    public function symlink(string $origin, string $target, bool $copyOnWindows = false)
+    public function symlink(string $origin, string $target, bool $copyOnWindows = false): void
     {
         try {
             $this->filesystem->symlink($origin, $target, $copyOnWindows);
@@ -94,7 +94,7 @@ class SymfonyFilesystem implements FilesystemInterface
     /**
      * {@inheritdoc}
      */
-    public function copy(string $originFile, string $targetFile, bool $override = false)
+    public function copy(string $originFile, string $targetFile, bool $override = false): void
     {
         if (stream_is_local($originFile) && !is_file($originFile)) {
             throw FileNotFoundException::fromPath($originFile);
@@ -117,7 +117,7 @@ class SymfonyFilesystem implements FilesystemInterface
         bool $override = false,
         bool $delete = false,
         bool $copyOnWindows = false
-    ) {
+    ): void {
         try {
             $options = ['override' => $override, 'delete' => $delete, 'copy_on_windows' => $copyOnWindows];
             $this->filesystem->mirror($originDir, $targetDir, null, $options);
@@ -139,7 +139,7 @@ class SymfonyFilesystem implements FilesystemInterface
     /**
      * {@inheritdoc}
      */
-    public function remove($paths)
+    public function remove($paths): void
     {
         try {
             $this->filesystem->remove($paths);
@@ -172,7 +172,7 @@ class SymfonyFilesystem implements FilesystemInterface
     /**
      * {@inheritdoc}
      */
-    public function put(string $path, string $content)
+    public function put(string $path, string $content): void
     {
         // if path is a stream [scheme://path], use file_put_contents
         // as Symfony Filesystem method will not work with streams
@@ -331,7 +331,7 @@ class SymfonyFilesystem implements FilesystemInterface
     /**
      * {@inheritdoc}
      */
-    public function baseName(string $path, string $suffix = null): string
+    public function baseName(string $path, ?string $suffix = null): string
     {
         if (!file_exists($path)) {
             throw FileNotFoundException::fromPath($path);
@@ -393,7 +393,7 @@ class SymfonyFilesystem implements FilesystemInterface
     /**
      * {@inheritdoc}
      */
-    public function requireOnce(string $path)
+    public function requireOnce(string $path): void
     {
         if (!is_file($path)) {
             throw FileNotFoundException::fromPath($path);
@@ -405,7 +405,7 @@ class SymfonyFilesystem implements FilesystemInterface
     /**
      * {@inheritdoc}
      */
-    public function chmod($paths, int $mode, int $umask = 0000, bool $recursive = false)
+    public function chmod($paths, int $mode, int $umask = 0000, bool $recursive = false): void
     {
         try {
             $this->filesystem->chmod($paths, $mode, $umask, $recursive);
@@ -419,7 +419,7 @@ class SymfonyFilesystem implements FilesystemInterface
     /**
      * {@inheritdoc}
      */
-    public function chown($paths, string $user, bool $recursive = false)
+    public function chown($paths, string $user, bool $recursive = false): void
     {
         try {
             $this->filesystem->chown($paths, $user, $recursive);
@@ -433,7 +433,7 @@ class SymfonyFilesystem implements FilesystemInterface
     /**
      * {@inheritdoc}
      */
-    public function chgrp($paths, string $group, bool $recursive = false)
+    public function chgrp($paths, string $group, bool $recursive = false): void
     {
         try {
             $this->filesystem->chgrp($paths, $group, $recursive);

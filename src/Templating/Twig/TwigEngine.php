@@ -8,14 +8,12 @@ use Novuso\Common\Application\Templating\TemplateHelper;
 use Novuso\Common\Application\Templating\Exception\DuplicateHelperException;
 use Novuso\Common\Application\Templating\Exception\TemplatingException;
 use Symfony\Component\Templating\TemplateNameParserInterface;
-use Symfony\Component\Templating\TemplateReferenceInterface;
 use Twig_Environment;
-use Twig_Template;
 
 /**
  * TwigEngine is a Twig template engine adapter
  *
- * @copyright Copyright (c) 2016, Novuso. <http://novuso.com>
+ * @copyright Copyright (c) 2017, Novuso. <http://novuso.com>
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @author    John Nickell <email@johnnickell.com>
  */
@@ -60,7 +58,7 @@ class TwigEngine implements TemplateEngine
     public function render(string $template, array $data = []): string
     {
         try {
-            return $this->load($template)->render($data);
+            return $this->environment->render($template, $data);
         } catch (Exception $exception) {
             throw new TemplatingException($exception->getMessage(), $template, $exception);
         }
@@ -71,19 +69,7 @@ class TwigEngine implements TemplateEngine
      */
     public function exists(string $template): bool
     {
-        if ($template instanceof Twig_Template) {
-            return true;
-        }
-
-        $loader = $this->environment->getLoader();
-
-        try {
-            $loader->getSource((string) $template);
-        } catch (Exception $exception) {
-            return false;
-        }
-
-        return true;
+        return $this->environment->getLoader()->exists($template);
     }
 
     /**
@@ -91,10 +77,6 @@ class TwigEngine implements TemplateEngine
      */
     public function supports(string $template): bool
     {
-        if ($template instanceof Twig_Template) {
-            return true;
-        }
-
         $reference = $this->parser->parse($template);
 
         return $reference->get('engine') === 'twig';
@@ -103,7 +85,7 @@ class TwigEngine implements TemplateEngine
     /**
      * {@inheritdoc}
      */
-    public function addHelper(TemplateHelper $helper)
+    public function addHelper(TemplateHelper $helper): void
     {
         $name = $helper->getName();
 
@@ -127,30 +109,5 @@ class TwigEngine implements TemplateEngine
         }
 
         return false;
-    }
-
-    /**
-     * Loads the given template
-     *
-     * @param string|TemplateReferenceInterface|Twig_Template $name The template
-     *
-     * @return Twig_Template
-     *
-     * @throws TemplatingException When the template cannot be loaded
-     */
-    protected function load($name)
-    {
-        if ($name instanceof Twig_Template) {
-            return $name;
-        }
-
-        try {
-            /** @var Twig_Template $template */
-            $template = $this->environment->loadTemplate((string) $name);
-        } catch (Exception $exception) {
-            throw new TemplatingException($exception->getMessage(), (string) $name, $exception);
-        }
-
-        return $template;
     }
 }

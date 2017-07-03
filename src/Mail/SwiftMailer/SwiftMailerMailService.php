@@ -14,7 +14,7 @@ use Swift_Message;
 /**
  * SwiftMailerMailService is a Swift Mailer mail service adapter
  *
- * @copyright Copyright (c) 2016, Novuso. <http://novuso.com>
+ * @copyright Copyright (c) 2017, Novuso. <http://novuso.com>
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @author    John Nickell <email@johnnickell.com>
  */
@@ -40,7 +40,7 @@ class SwiftMailerMailService implements MailService
     /**
      * {@inheritdoc}
      */
-    public function send(Message $message)
+    public function send(Message $message): void
     {
         try {
             $swiftMessage = Swift_Message::newInstance();
@@ -72,7 +72,7 @@ class SwiftMailerMailService implements MailService
      *
      * @return void
      */
-    protected function setCharset(Message $message, Swift_Message $swiftMessage)
+    protected function setCharset(Message $message, Swift_Message $swiftMessage): void
     {
         $swiftMessage->setCharset($message->getCharset());
     }
@@ -85,7 +85,7 @@ class SwiftMailerMailService implements MailService
      *
      * @return void
      */
-    protected function setSubject(Message $message, Swift_Message $swiftMessage)
+    protected function setSubject(Message $message, Swift_Message $swiftMessage): void
     {
         $subject = $message->getSubject();
         if ($subject !== null) {
@@ -101,7 +101,7 @@ class SwiftMailerMailService implements MailService
      *
      * @return void
      */
-    protected function setFrom(Message $message, Swift_Message $swiftMessage)
+    protected function setFrom(Message $message, Swift_Message $swiftMessage): void
     {
         foreach ($message->getFrom() as $from) {
             $swiftMessage->addFrom($from['address'], $from['name']);
@@ -116,7 +116,7 @@ class SwiftMailerMailService implements MailService
      *
      * @return void
      */
-    protected function setTo(Message $message, Swift_Message $swiftMessage)
+    protected function setTo(Message $message, Swift_Message $swiftMessage): void
     {
         foreach ($message->getTo() as $to) {
             $swiftMessage->addTo($to['address'], $to['name']);
@@ -131,7 +131,7 @@ class SwiftMailerMailService implements MailService
      *
      * @return void
      */
-    protected function setReplyTo(Message $message, Swift_Message $swiftMessage)
+    protected function setReplyTo(Message $message, Swift_Message $swiftMessage): void
     {
         foreach ($message->getReplyTo() as $replyTo) {
             $swiftMessage->addReplyTo($replyTo['address'], $replyTo['name']);
@@ -146,7 +146,7 @@ class SwiftMailerMailService implements MailService
      *
      * @return void
      */
-    protected function setCc(Message $message, Swift_Message $swiftMessage)
+    protected function setCc(Message $message, Swift_Message $swiftMessage): void
     {
         foreach ($message->getCc() as $cc) {
             $swiftMessage->addCc($cc['address'], $cc['name']);
@@ -161,7 +161,7 @@ class SwiftMailerMailService implements MailService
      *
      * @return void
      */
-    protected function setBcc(Message $message, Swift_Message $swiftMessage)
+    protected function setBcc(Message $message, Swift_Message $swiftMessage): void
     {
         foreach ($message->getBcc() as $bcc) {
             $swiftMessage->addBcc($bcc['address'], $bcc['name']);
@@ -176,7 +176,7 @@ class SwiftMailerMailService implements MailService
      *
      * @return void
      */
-    protected function setContent(Message $message, Swift_Message $swiftMessage)
+    protected function setContent(Message $message, Swift_Message $swiftMessage): void
     {
         $bodySet = false;
         foreach ($message->getContent() as $content) {
@@ -197,7 +197,7 @@ class SwiftMailerMailService implements MailService
      *
      * @return void
      */
-    protected function setSender(Message $message, Swift_Message $swiftMessage)
+    protected function setSender(Message $message, Swift_Message $swiftMessage): void
     {
         $sender = $message->getSender();
         if ($sender !== null) {
@@ -213,7 +213,7 @@ class SwiftMailerMailService implements MailService
      *
      * @return void
      */
-    protected function setReturnPath(Message $message, Swift_Message $swiftMessage)
+    protected function setReturnPath(Message $message, Swift_Message $swiftMessage): void
     {
         $returnPath = $message->getReturnPath();
         if ($returnPath !== null) {
@@ -229,7 +229,7 @@ class SwiftMailerMailService implements MailService
      *
      * @return void
      */
-    protected function setPriority(Message $message, Swift_Message $swiftMessage)
+    protected function setPriority(Message $message, Swift_Message $swiftMessage): void
     {
         $swiftMessage->setPriority($message->getPriority()->value());
     }
@@ -242,7 +242,7 @@ class SwiftMailerMailService implements MailService
      *
      * @return void
      */
-    protected function setTimestamp(Message $message, Swift_Message $swiftMessage)
+    protected function setTimestamp(Message $message, Swift_Message $swiftMessage): void
     {
         $timestamp = $message->getTimestamp();
         if ($timestamp !== null) {
@@ -258,7 +258,7 @@ class SwiftMailerMailService implements MailService
      *
      * @return void
      */
-    protected function setMaxLineLength(Message $message, Swift_Message $swiftMessage)
+    protected function setMaxLineLength(Message $message, Swift_Message $swiftMessage): void
     {
         $maxLineLength = $message->getMaxLineLength();
         if ($maxLineLength !== null) {
@@ -274,7 +274,7 @@ class SwiftMailerMailService implements MailService
      *
      * @return void
      */
-    protected function setAttachments(Message $message, Swift_Message $swiftMessage)
+    protected function setAttachments(Message $message, Swift_Message $swiftMessage): void
     {
         /** @var Attachment $attachment */
         foreach ($message->getAttachments() as $attachment) {

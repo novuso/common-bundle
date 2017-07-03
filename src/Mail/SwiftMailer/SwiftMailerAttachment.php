@@ -8,7 +8,7 @@ use Swift_Attachment;
 /**
  * SwiftMailerAttachment is a Swift Mailer attachment adapter
  *
- * @copyright Copyright (c) 2016, Novuso. <http://novuso.com>
+ * @copyright Copyright (c) 2017, Novuso. <http://novuso.com>
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @author    John Nickell <email@johnnickell.com>
  */
@@ -47,6 +47,7 @@ class SwiftMailerAttachment implements Attachment
         string $contentType,
         string $embedId = null
     ): SwiftMailerAttachment {
+        /** @var Swift_Attachment $attachment */
         $attachment = Swift_Attachment::newInstance($body, $fileName, $contentType);
         if ($embedId !== null) {
             $attachment->setId($embedId);
@@ -72,6 +73,7 @@ class SwiftMailerAttachment implements Attachment
         string $contentType,
         string $embedId = null
     ): SwiftMailerAttachment {
+        /** @var Swift_Attachment $attachment */
         $attachment = Swift_Attachment::fromPath($path, $contentType)
             ->setFilename($fileName);
         if ($embedId !== null) {

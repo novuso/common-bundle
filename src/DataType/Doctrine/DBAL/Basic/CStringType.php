@@ -6,23 +6,23 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use Exception;
-use Novuso\Common\Domain\Model\Basic\StdString;
+use Novuso\Common\Domain\Type\CString;
 
 /**
- * StdStringType is the database type for a standard string
+ * CStringType is the database type for a standard string
  *
- * @copyright Copyright (c) 2016, Novuso. <http://novuso.com>
+ * @copyright Copyright (c) 2017, Novuso. <http://novuso.com>
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @author    John Nickell <email@johnnickell.com>
  */
-class StdStringType extends Type
+class CStringType extends Type
 {
     /**
      * Type name
      *
      * @var string
      */
-    const TYPE_NAME = 'common_std_string';
+    const TYPE_NAME = 'common_string';
 
     /**
      * Gets the SQL declaration snippet for a field of this type
@@ -53,7 +53,7 @@ class StdStringType extends Type
             return null;
         }
 
-        if (!($value instanceof StdString)) {
+        if (!($value instanceof CString)) {
             throw ConversionException::conversionFailed($value, static::TYPE_NAME);
         }
 
@@ -76,12 +76,12 @@ class StdStringType extends Type
             return null;
         }
 
-        if ($value instanceof StdString) {
+        if ($value instanceof CString) {
             return $value;
         }
 
         try {
-            $string = StdString::create($value);
+            $string = CString::create($value);
         } catch (Exception $exception) {
             throw ConversionException::conversionFailed($value, static::TYPE_NAME);
         }

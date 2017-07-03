@@ -6,9 +6,9 @@ use Exception;
 use InvalidArgumentException;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\Alias;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\FileLoader;
 use Symfony\Component\DependencyInjection\Reference;
@@ -17,13 +17,13 @@ use Symfony\Component\ExpressionLanguage\Expression;
 /**
  * JsonFileLoader is a JSON file loader for the dependency injection component
  *
- * @copyright Copyright (c) 2016, Novuso. <http://novuso.com>
+ * @copyright Copyright (c) 2017, Novuso. <http://novuso.com>
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @author    John Nickell <email@johnnickell.com>
  */
 class JsonFileLoader extends FileLoader
 {
-    protected static $keywords = [
+    private static $keywords = [
         'alias'                 => 'alias',
         'parent'                => 'parent',
         'class'                 => 'class',
@@ -53,9 +53,11 @@ class JsonFileLoader extends FileLoader
      * @param mixed       $resource The resource
      * @param string|null $type     The resource type of null if unknown
      *
+     * @return void
+     *
      * @throws Exception When an error occurs
      */
-    public function load($resource, $type = null)
+    public function load($resource, $type = null): void
     {
         $path = $this->locator->locate($resource);
 
@@ -100,7 +102,7 @@ class JsonFileLoader extends FileLoader
      *
      * @return bool
      */
-    public function supports($resource, $type = null)
+    public function supports($resource, $type = null): bool
     {
         return is_string($resource)
             && pathinfo($resource, PATHINFO_EXTENSION) === 'json'
@@ -117,7 +119,7 @@ class JsonFileLoader extends FileLoader
      *
      * @throws Exception When an error occurs
      */
-    protected function parseImports($content, $file)
+    protected function parseImports($content, $file): void
     {
         if (!isset($content['imports'])) {
             return;
@@ -145,7 +147,7 @@ class JsonFileLoader extends FileLoader
             $this->import(
                 $import['resource'],
                 null,
-                isset($import['ignore_errors']) ? (bool) $import['ignore_errors'] : false,
+                isset($import['ignore_errors']) ? (bool)$import['ignore_errors'] : false,
                 $file
             );
         }
@@ -161,7 +163,7 @@ class JsonFileLoader extends FileLoader
      *
      * @throws Exception When an error occurs
      */
-    protected function parseDefinitions($content, $file)
+    protected function parseDefinitions($content, $file): void
     {
         if (!isset($content['services'])) {
             return;
@@ -187,9 +189,11 @@ class JsonFileLoader extends FileLoader
      * @param array  $service The service definition
      * @param string $file    The file path
      *
+     * @return void
+     *
      * @throws InvalidArgumentException When tags are invalid
      */
-    protected function parseDefinition($id, $service, $file)
+    protected function parseDefinition($id, $service, $file): void
     {
         if (is_string($service) && 0 === strpos($service, '@')) {
             $this->container->setAlias($id, substr($service, 1));
@@ -200,7 +204,7 @@ class JsonFileLoader extends FileLoader
         if (!is_array($service)) {
             $message = sprintf(
                 'A service definition must be an array or a string starting with "@" but %s found for '
-                    .'service "%s" in %s. Check your JSON syntax',
+                .'service "%s" in %s. Check your JSON syntax',
                 gettype($service),
                 $id,
                 $file
@@ -211,14 +215,14 @@ class JsonFileLoader extends FileLoader
         static::checkDefinition($id, $service, $file);
 
         if (isset($service['alias'])) {
-            $public = !array_key_exists('public', $service) || (bool) $service['public'];
+            $public = !array_key_exists('public', $service) || (bool)$service['public'];
             $this->container->setAlias($id, new Alias($service['alias'], $public));
 
             return;
         }
 
         if (isset($service['parent'])) {
-            $definition = new DefinitionDecorator($service['parent']);
+            $definition = new ChildDefinition($service['parent']);
         } else {
             $definition = new Definition();
         }
@@ -284,10 +288,10 @@ class JsonFileLoader extends FileLoader
             foreach ($service['calls'] as $call) {
                 if (isset($call['method'])) {
                     $method = $call['method'];
-                    $args = isset($call['arguments']) ? $this->resolveServices($call['arguments']) : array();
+                    $args = isset($call['arguments']) ? $this->resolveServices($call['arguments']) : [];
                 } else {
                     $method = $call[0];
-                    $args = isset($call[1]) ? $this->resolveServices($call[1]) : array();
+                    $args = isset($call[1]) ? $this->resolveServices($call[1]) : [];
                 }
 
                 $definition->addMethodCall($method, $args);
@@ -331,7 +335,7 @@ class JsonFileLoader extends FileLoader
                     if (!is_scalar($value) && null !== $value) {
                         $message = sprintf(
                             'A "tags" attribute must be of a scalar-type for service "%s", tag "%s", '
-                                .'attribute "%s" in %s. Check your JSON syntax',
+                            .'attribute "%s" in %s. Check your JSON syntax',
                             $id,
                             $name,
                             $attribute,
@@ -349,7 +353,7 @@ class JsonFileLoader extends FileLoader
             if ('' !== $service['decorates'] && '@' === $service['decorates'][0]) {
                 $message = sprintf(
                     'The value of the "decorates" option for the "%s" service must be the id of the service without '
-                        .'the "@" prefix (replace "%s" with "%s")',
+                    .'the "@" prefix (replace "%s" with "%s")',
                     $id,
                     $service['decorates'],
                     substr($service['decorates'], 1)
@@ -364,36 +368,6 @@ class JsonFileLoader extends FileLoader
 
         if (isset($service['autowire'])) {
             $definition->setAutowired($service['autowire']);
-        }
-
-        if (isset($service['autowiring_types'])) {
-            if (is_string($service['autowiring_types'])) {
-                $definition->addAutowiringType($service['autowiring_types']);
-            } else {
-                if (!is_array($service['autowiring_types'])) {
-                    $message = sprintf(
-                        'Parameter "autowiring_types" must be a string or an array for service "%s" in %s. '
-                            .'Check your JSON syntax',
-                        $id,
-                        $file
-                    );
-                    throw new InvalidArgumentException($message);
-                }
-
-                foreach ($service['autowiring_types'] as $autowiringType) {
-                    if (!is_string($autowiringType)) {
-                        $message = sprintf(
-                            'A "autowiring_types" attribute must be of type string for service "%s" in %s. '
-                                .'Check your JSON syntax',
-                            $id,
-                            $file
-                        );
-                        throw new InvalidArgumentException($message);
-                    }
-
-                    $definition->addAutowiringType($autowiringType);
-                }
-            }
         }
 
         $this->container->setDefinition($id, $definition);
@@ -417,7 +391,7 @@ class JsonFileLoader extends FileLoader
             if ('' !== $callable && '@' === $callable[0]) {
                 $message = sprintf(
                     'The value of the "%s" option for the "%s" service must be the id of the service without the "@" '
-                        .'prefix (replace "%s" with "%s").',
+                    .'prefix (replace "%s" with "%s").',
                     $parameter,
                     $id,
                     $callable,
@@ -545,9 +519,9 @@ class JsonFileLoader extends FileLoader
     {
         if (is_array($value)) {
             $value = array_map([$this, 'resolveServices'], $value);
-        } elseif (is_string($value) &&  0 === strpos($value, '@=')) {
+        } elseif (is_string($value) && 0 === strpos($value, '@=')) {
             return new Expression(substr($value, 2));
-        } elseif (is_string($value) &&  0 === strpos($value, '@')) {
+        } elseif (is_string($value) && 0 === strpos($value, '@')) {
             if (0 === strpos($value, '@@')) {
                 $value = substr($value, 1);
                 $invalidBehavior = null;
@@ -581,7 +555,7 @@ class JsonFileLoader extends FileLoader
      *
      * @return void
      */
-    protected function loadFromExtensions($content)
+    protected function loadFromExtensions($content): void
     {
         foreach ($content as $namespace => $values) {
             if (in_array($namespace, ['imports', 'parameters', 'services'])) {
@@ -605,13 +579,13 @@ class JsonFileLoader extends FileLoader
      *
      * @return void
      */
-    protected static function checkDefinition($id, array $definition, $file)
+    protected static function checkDefinition($id, array $definition, $file): void
     {
         foreach ($definition as $key => $value) {
             if (!isset(static::$keywords[$key])) {
                 $message = sprintf(
                     'The configuration key "%s" is unsupported for service definition "%s" in "%s". '
-                        .'Allowed configuration keys are "%s"',
+                    .'Allowed configuration keys are "%s"',
                     $key,
                     $id,
                     $file,

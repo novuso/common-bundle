@@ -6,9 +6,10 @@ use Novuso\Common\Adapter\Filesystem\Symfony\SymfonyFilesystem;
 use Novuso\Test\System\TestCase\UnitTestCase;
 use org\bovigo\vfs\vfsStream;
 use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * @covers Novuso\Common\Adapter\Filesystem\Symfony\SymfonyFilesystem
+ * @covers \Novuso\Common\Adapter\Filesystem\Symfony\SymfonyFilesystem
  */
 class SymfonyFilesystemTest extends UnitTestCase
 {
@@ -220,7 +221,7 @@ class SymfonyFilesystemTest extends UnitTestCase
     {
         $file = __FILE__;
         $mode = 0644;
-        $mockFs = $this->mock('Symfony\\Component\\Filesystem\\Filesystem');
+        $mockFs = $this->mock(Filesystem::class);
         $mockFs
             ->shouldReceive('chmod')
             ->once()
@@ -228,13 +229,14 @@ class SymfonyFilesystemTest extends UnitTestCase
             ->andReturn(null);
         $this->filesystem = new SymfonyFilesystem($mockFs);
         $this->filesystem->chmod($file, $mode);
+        $this->assertInstanceOf(Filesystem::class, $mockFs);
     }
 
     public function test_that_chown_delegates_call_as_expected()
     {
         $file = __FILE__;
         $user = 'ec2-user';
-        $mockFs = $this->mock('Symfony\\Component\\Filesystem\\Filesystem');
+        $mockFs = $this->mock(Filesystem::class);
         $mockFs
             ->shouldReceive('chown')
             ->once()
@@ -242,13 +244,14 @@ class SymfonyFilesystemTest extends UnitTestCase
             ->andReturn(null);
         $this->filesystem = new SymfonyFilesystem($mockFs);
         $this->filesystem->chown($file, $user);
+        $this->assertInstanceOf(Filesystem::class, $mockFs);
     }
 
     public function test_that_chgrp_delegates_call_as_expected()
     {
         $file = __FILE__;
         $group = 'ec2-user';
-        $mockFs = $this->mock('Symfony\\Component\\Filesystem\\Filesystem');
+        $mockFs = $this->mock(Filesystem::class);
         $mockFs
             ->shouldReceive('chgrp')
             ->once()
@@ -256,6 +259,7 @@ class SymfonyFilesystemTest extends UnitTestCase
             ->andReturn(null);
         $this->filesystem = new SymfonyFilesystem($mockFs);
         $this->filesystem->chgrp($file, $group);
+        $this->assertInstanceOf(Filesystem::class, $mockFs);
     }
 
     /**
@@ -263,7 +267,7 @@ class SymfonyFilesystemTest extends UnitTestCase
      */
     public function test_that_mkdir_throws_exception_on_error_std()
     {
-        $mockFs = $this->mock('Symfony\\Component\\Filesystem\\Filesystem');
+        $mockFs = $this->mock(Filesystem::class);
         $mockFs
             ->shouldReceive('mkdir')
             ->once()
@@ -287,7 +291,7 @@ class SymfonyFilesystemTest extends UnitTestCase
      */
     public function test_that_touch_throws_exception_on_error_std()
     {
-        $mockFs = $this->mock('Symfony\\Component\\Filesystem\\Filesystem');
+        $mockFs = $this->mock(Filesystem::class);
         $mockFs
             ->shouldReceive('touch')
             ->once()
@@ -310,7 +314,7 @@ class SymfonyFilesystemTest extends UnitTestCase
      */
     public function test_that_rename_throws_exception_on_error_std()
     {
-        $mockFs = $this->mock('Symfony\\Component\\Filesystem\\Filesystem');
+        $mockFs = $this->mock(Filesystem::class);
         $mockFs
             ->shouldReceive('rename')
             ->once()
@@ -334,7 +338,7 @@ class SymfonyFilesystemTest extends UnitTestCase
      */
     public function test_that_symlink_throws_exception_on_error_std()
     {
-        $mockFs = $this->mock('Symfony\\Component\\Filesystem\\Filesystem');
+        $mockFs = $this->mock(Filesystem::class);
         $mockFs
             ->shouldReceive('symlink')
             ->once()
@@ -365,7 +369,7 @@ class SymfonyFilesystemTest extends UnitTestCase
      */
     public function test_that_copy_throws_exception_on_error_std()
     {
-        $mockFs = $this->mock('Symfony\\Component\\Filesystem\\Filesystem');
+        $mockFs = $this->mock(Filesystem::class);
         $mockFs
             ->shouldReceive('copy')
             ->once()
@@ -389,7 +393,7 @@ class SymfonyFilesystemTest extends UnitTestCase
      */
     public function test_that_mirror_throws_exception_on_error_std()
     {
-        $mockFs = $this->mock('Symfony\\Component\\Filesystem\\Filesystem');
+        $mockFs = $this->mock(Filesystem::class);
         $mockFs
             ->shouldReceive('mirror')
             ->once()
@@ -413,7 +417,7 @@ class SymfonyFilesystemTest extends UnitTestCase
      */
     public function test_that_remove_throws_exception_on_error_std()
     {
-        $mockFs = $this->mock('Symfony\\Component\\Filesystem\\Filesystem');
+        $mockFs = $this->mock(Filesystem::class);
         $mockFs
             ->shouldReceive('remove')
             ->once()
@@ -459,7 +463,7 @@ class SymfonyFilesystemTest extends UnitTestCase
      */
     public function test_that_put_throws_exception_on_error_std()
     {
-        $mockFs = $this->mock('Symfony\\Component\\Filesystem\\Filesystem');
+        $mockFs = $this->mock(Filesystem::class);
         $mockFs
             ->shouldReceive('dumpFile')
             ->once()
@@ -473,7 +477,7 @@ class SymfonyFilesystemTest extends UnitTestCase
      */
     public function test_that_put_throws_exception_on_error_path()
     {
-        $mockFs = $this->mock('Symfony\\Component\\Filesystem\\Filesystem');
+        $mockFs = $this->mock(Filesystem::class);
         $mockFs
             ->shouldReceive('dumpFile')
             ->once()
@@ -589,7 +593,7 @@ class SymfonyFilesystemTest extends UnitTestCase
     {
         $file = __FILE__;
         $mode = 0644;
-        $mockFs = $this->mock('Symfony\\Component\\Filesystem\\Filesystem');
+        $mockFs = $this->mock(Filesystem::class);
         $mockFs
             ->shouldReceive('chmod')
             ->once()
@@ -606,7 +610,7 @@ class SymfonyFilesystemTest extends UnitTestCase
     {
         $file = __FILE__;
         $mode = 0644;
-        $mockFs = $this->mock('Symfony\\Component\\Filesystem\\Filesystem');
+        $mockFs = $this->mock(Filesystem::class);
         $mockFs
             ->shouldReceive('chmod')
             ->once()
@@ -623,7 +627,7 @@ class SymfonyFilesystemTest extends UnitTestCase
     {
         $file = __FILE__;
         $user = 'ec2-user';
-        $mockFs = $this->mock('Symfony\\Component\\Filesystem\\Filesystem');
+        $mockFs = $this->mock(Filesystem::class);
         $mockFs
             ->shouldReceive('chown')
             ->once()
@@ -640,7 +644,7 @@ class SymfonyFilesystemTest extends UnitTestCase
     {
         $file = __FILE__;
         $user = 'ec2-user';
-        $mockFs = $this->mock('Symfony\\Component\\Filesystem\\Filesystem');
+        $mockFs = $this->mock(Filesystem::class);
         $mockFs
             ->shouldReceive('chown')
             ->once()
@@ -657,7 +661,7 @@ class SymfonyFilesystemTest extends UnitTestCase
     {
         $file = __FILE__;
         $group = 'ec2-user';
-        $mockFs = $this->mock('Symfony\\Component\\Filesystem\\Filesystem');
+        $mockFs = $this->mock(Filesystem::class);
         $mockFs
             ->shouldReceive('chgrp')
             ->once()
@@ -674,7 +678,7 @@ class SymfonyFilesystemTest extends UnitTestCase
     {
         $file = __FILE__;
         $group = 'ec2-user';
-        $mockFs = $this->mock('Symfony\\Component\\Filesystem\\Filesystem');
+        $mockFs = $this->mock(Filesystem::class);
         $mockFs
             ->shouldReceive('chgrp')
             ->once()

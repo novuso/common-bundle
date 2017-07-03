@@ -4,13 +4,13 @@ namespace Novuso\Common\Adapter\Console\Symfony\Subscriber;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\ConsoleEvents;
-use Symfony\Component\Console\Event\ConsoleExceptionEvent;
+use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * ExceptionLogSubscriber logs exceptions from the console application
  *
- * @copyright Copyright (c) 2016, Novuso. <http://novuso.com>
+ * @copyright Copyright (c) 2017, Novuso. <http://novuso.com>
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @author    John Nickell <email@johnnickell.com>
  */
@@ -40,19 +40,19 @@ class ExceptionLogSubscriber implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return [ConsoleEvents::EXCEPTION => 'onConsoleException'];
+        return [ConsoleEvents::ERROR => 'onConsoleError'];
     }
 
     /**
      * Logs console exception
      *
-     * @param ConsoleExceptionEvent $event The event
+     * @param ConsoleErrorEvent $event The event
      *
      * @return void
      */
-    public function onConsoleException(ConsoleExceptionEvent $event)
+    public function onConsoleException(ConsoleErrorEvent $event)
     {
-        $exception = $event->getException();
+        $exception = $event->getError();
         $exitCode = $event->getExitCode();
         $message = sprintf(
             '%s: "%s" at %s line %s',

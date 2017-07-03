@@ -9,7 +9,6 @@
         {"resource": "services/process.json"},
         {"resource": "services/query.json"},
         {"resource": "services/routing.json"},
-        {"resource": "services/service.json"},
         {"resource": "services/templating.json"}
     ]
 }

@@ -10,7 +10,7 @@ use Swift_Attachment;
 /**
  * SwiftMailerMailFactory is a Swift Mailer mail factory
  *
- * @copyright Copyright (c) 2016, Novuso. <http://novuso.com>
+ * @copyright Copyright (c) 2017, Novuso. <http://novuso.com>
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @author    John Nickell <email@johnnickell.com>
  */
@@ -31,7 +31,7 @@ class SwiftMailerMailFactory implements MailFactory
         string $body,
         string $fileName,
         string $contentType,
-        string $embedId = null
+        ?string $embedId = null
     ): Attachment {
         return SwiftMailerAttachment::fromString($body, $fileName, $contentType, $embedId);
     }
@@ -43,7 +43,7 @@ class SwiftMailerMailFactory implements MailFactory
         string $path,
         string $fileName,
         string $contentType,
-        string $embedId = null
+        ?string $embedId = null
     ): Attachment {
         return SwiftMailerAttachment::fromPath($path, $fileName, $contentType, $embedId);
     }

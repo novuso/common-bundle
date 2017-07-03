@@ -19,7 +19,7 @@
         },
         "novuso_common.command_service_map": {
             "class": "Novuso\\Common\\Application\\Messaging\\Command\\Routing\\ServiceAwareCommandMap",
-            "arguments": ["@novuso_common.service_container"]
+            "arguments": ["@service_container"]
         },
         "novuso_common.command_logger": {
             "class": "Novuso\\Common\\Application\\Messaging\\Command\\Filter\\CommandLogger",

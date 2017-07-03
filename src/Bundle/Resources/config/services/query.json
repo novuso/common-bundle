@@ -19,7 +19,7 @@
         },
         "novuso_common.query_service_map": {
             "class": "Novuso\\Common\\Application\\Messaging\\Query\\Routing\\ServiceAwareQueryMap",
-            "arguments": ["@novuso_common.service_container"]
+            "arguments": ["@service_container"]
         },
         "novuso_common.query_logger": {
             "class": "Novuso\\Common\\Application\\Messaging\\Query\\Filter\\QueryLogger",

@@ -15,7 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * GuzzlePromise is a Guzzle promise adapter
  *
- * @copyright Copyright (c) 2016, Novuso. <http://novuso.com>
+ * @copyright Copyright (c) 2017, Novuso. <http://novuso.com>
  * @license   http://opensource.org/licenses/MIT The MIT License
  * @author    John Nickell <email@johnnickell.com>
  */
@@ -96,7 +96,7 @@ class GuzzlePromise implements Promise
     /**
      * {@inheritdoc}
      */
-    public function then(callable $onFulfilled = null, callable $onRejected = null): Promise
+    public function then(?callable $onFulfilled = null, ?callable $onRejected = null): Promise
     {
         return new static($this->promise->then($onFulfilled, $onRejected), $this->request);
     }
@@ -136,7 +136,7 @@ class GuzzlePromise implements Promise
     /**
      * {@inheritdoc}
      */
-    public function wait()
+    public function wait(): void
     {
         $this->promise->wait(false);
     }
