@@ -1,0 +1,28 @@
+---
+- name: "rabbitmq key"
+  become: yes
+  apt_key:
+    url: "{{ rabbitmq_key_url }}"
+    state: present
+
+- name: "rabbitmq repository"
+  become: yes
+  apt_repository:
+    repo: "{{ rabbitmq_repository }}"
+    state: present
+    filename: "{{ rabbitmq_repository_file }}"
+
+- name: "install rabbitmq"
+  become: yes
+  apt:
+    name: "{{ rabbitmq_package }}"
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: "rabbitmq service"
+  become: yes
+  service:
+    name: "{{ rabbitmq_service }}"
+    state: started
+    enabled: yes

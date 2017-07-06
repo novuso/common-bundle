@@ -1,0 +1,6 @@
+---
+rabbitmq_key_url: "https://www.rabbitmq.com/rabbitmq-release-signing-key.asc"
+rabbitmq_repository: "deb http://www.rabbitmq.com/debian/ testing main"
+rabbitmq_repository_file: "rabbitmq"
+rabbitmq_package: "rabbitmq-server"
+rabbitmq_service: "rabbitmq-server"
